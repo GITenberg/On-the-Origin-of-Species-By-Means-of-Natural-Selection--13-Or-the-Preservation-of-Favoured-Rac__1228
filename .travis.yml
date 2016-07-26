@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: XhklryiK1qaC1o8i1Z6SSsTudIlr/OBUqRHbHn7J4kHKaeQ2kOr/4i7bZ0jZKe4F6dzSJoNAGg4t0McdT6qC6HP8nKkLkxBbDTqP/Dsj84dsJWnmTxODdW3EvfM8DgY+Zme2Ntksd4BFWMe4/vwDtX0c2Z5EL7HiKotCzyxpp1bL/Ap+QM02NVAj6DW3mbVZCT5MY8FXkDn1b2oSUlU5TxXsDtCFqqa8XwsV4/fZUuCE85SbjqBgrCLAxJgtKdTTSs5G+atI7S7uG3T8JtZpSJJF4Ka98HqB4ocZWqgVkSgo51Ui+q/lh3msmmaC9CMwVH6sbkNApADkOHxvfkQPyff6ciCLyxRjFqgvk3aoWxG9R7fmusB2Pur2oDiey4ArfN5bVEuN5SvOm+RIrf2ftlF4dvLbboyEf7ubZvrSS92EBumwYVWdX1F9DjCqjwsgOT/5BqPYbzub89fUwn7ujdfIsQVf+4Kcj5FxIDkE4S7trs865ipvMvAUdFHe7inr9K2g/HQ4uUw5kX4FcDmvpv83oX9PftojGYq/BdFk7UhZJb+rYPBBcjUk8JPTYI5YeCQxt2FtsiRGvFAlGa9MQrW090lRIhJmzScP9YX3qRiiJ3R3LJGJuuxOJIiGRAUBKACKWqJ14OkEsnSEDleK4AJ+zP6yRbvRZF5WwgTFUA4=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
