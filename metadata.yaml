@@ -1,6 +1,9 @@
 _repo: On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac__1228
-_version: 0.1.0
+_version: 0.2.0
 alternative_title: On the origin of species
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Darwin, Charles
@@ -11,6 +14,8 @@ creator:
     url: http://www.gutenberg.org/2009/agents/485
     wikipedia: http://en.wikipedia.org/wiki/Charles_Darwin
 description: See also PG#2009 for the 6th Edition
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/1228#On-the-Origin-of-Species-By-Means-of-Natural-Selection--13-Or-the-Preservation-of-Favoured-Rac_
 gutenberg_bookshelf:
 - Banned Books from Anne Haight's list
 - Biology
